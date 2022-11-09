@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 
     id 'org.beryx.jlink' version '2.25.0'
@@ -7,6 +8,8 @@ plugins {
 
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
+    id 'org.flywaydb.flyway' version '6.4.3'
 }
 
 group = 'nl.tijsbeek'
@@ -18,12 +21,15 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+apply plugin: 'org.openjfx.javafxplugin'
+
 application {
     mainModule = 'nl.tijsbeek.wesupportgoods'
     mainClass = 'nl.tijsbeek.wesupportgoods.WeSupportGoodsApplication'
 }
 
 javafx {
+    version = '18.0.2'
     modules("javafx.controls", "javafx.fxml")
 }
 
@@ -47,6 +53,7 @@ dependencies {
     }
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter'
 
     // Database
     implementation 'org.flywaydb:flyway-core'
