@@ -1,35 +1,40 @@
 package nl.tijsbeek.wesupportgoods;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.flywaydb.core.Flyway;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
-@SpringBootApplication
 public class JavaFxApplicationSupport extends Application {
+    private ConfigurableApplicationContext context;
 
     @Override
     public void init() {
-        SpringApplicationBuilder builder = new SpringApplicationBuilder(JavaFxApplicationSupport.class);
-        builder.application().setWebApplicationType(WebApplicationType.NONE);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+        this.context = new SpringApplicationBuilder()
+                .sources(WeSupportGoodsApplication.class)
+                .run(getParameters().getRaw().toArray(new String[0]));
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
+    public void start(Stage stage) throws Exception {
+        context.publishEvent(new StageReadyEvent(stage));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/nl.tijsbeek.wesupportgoods/hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() {
+        context.close();
+        Platform.exit();
     }
 }
