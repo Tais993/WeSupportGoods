@@ -1,8 +1,12 @@
 package nl.tijsbeek.wesupportgoods;
 
+import javafx.application.Application;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class WeSupportGoodsApplication {
 
     public static void main(String[] args) {
-        JavaFxApplicationSupport.main(args);
+        Application.launch(JavaFxApplicationSupport.class, args);
     }
 }
