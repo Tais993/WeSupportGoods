@@ -1,4 +1,4 @@
-package nl.tijsbeek.wesupportgoods.windows;
+package nl.tijsbeek.wesupportgoods.javafx.windows;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +30,7 @@ public class LoginScreen {
     private final DSLContext context;
 
     @FXML
-    private Pane loginPane;
+    private GridPane loginPane;
 
 
     @FXML
