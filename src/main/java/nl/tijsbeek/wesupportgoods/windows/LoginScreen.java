@@ -43,7 +43,7 @@ public class LoginScreen {
 
     @FXML
     public void initialize() {
-        BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
+        BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(1));
         Border border = new Border(borderStroke);
 
         loginPane.setBorder(border);
@@ -60,7 +60,7 @@ public class LoginScreen {
                 .fetchOne();
 
         if (userRecord == null) {
-            // TODO: error
+            // TODO: error (see ControlsFX library)
             logger.warn("incorrect info: '{}' & '{}'", username, password);
         } else {
             logger.info("Email: '{}'", userRecord.getEmail());
