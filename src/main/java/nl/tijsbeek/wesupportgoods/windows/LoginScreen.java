@@ -7,6 +7,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import net.synedra.validatorfx.Check;
+import net.synedra.validatorfx.Validator;
 import nl.tijsbeek.wesupportgoods.db.generated.tables.records.UserRecord;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
@@ -20,6 +22,8 @@ import static nl.tijsbeek.wesupportgoods.db.generated.tables.User.USER;
 @FxmlView
 public class LoginScreen {
     private static final Logger logger = LoggerFactory.getLogger(LoginScreen.class);
+
+    private final Validator validator = new Validator();
 
     @SuppressWarnings({"unused", "FieldCanBeLocal"})
     private final FxWeaver fxWeaver;
@@ -35,6 +39,9 @@ public class LoginScreen {
     @FXML
     private TextField passwordTextField;
 
+
+    private Check loginCheck;
+
     @Autowired
     public LoginScreen(FxWeaver fxWeaver, DSLContext context) {
         this.fxWeaver = fxWeaver;
@@ -47,6 +54,23 @@ public class LoginScreen {
         Border border = new Border(borderStroke);
 
         loginPane.setBorder(border);
+
+        loginCheck = validator.createCheck()
+                .withMethod(c -> {
+                    String checkUsername = usernameTextField.getText();
+                    String checkPassword = passwordTextField.getText();
+
+                    UserRecord checkRecord = context.selectFrom(USER)
+                            .where(USER.USERNAME.eq(checkUsername), USER.PASSWORD.eq(checkPassword))
+                            .fetchOne();
+
+                    if (checkRecord == null) {
+                        c.error("Username or password invalid!.");
+                        logger.warn("incorrect info: '{}' & '{}'", checkUsername, checkPassword);
+                    }
+                })
+                .decorates(usernameTextField)
+                .decorates(passwordTextField);
     }
 
     public void onButtonClick(ActionEvent event) {
@@ -59,10 +83,9 @@ public class LoginScreen {
                 .where(USER.USERNAME.eq(username), USER.PASSWORD.eq(password))
                 .fetchOne();
 
-        if (userRecord == null) {
-            // TODO: error (see ControlsFX library)
-            logger.warn("incorrect info: '{}' & '{}'", username, password);
-        } else {
+        loginCheck.recheck();
+
+        if (userRecord != null) {
             logger.info("Email: '{}'", userRecord.getEmail());
 
             switch (userRecord.getRole()) {
