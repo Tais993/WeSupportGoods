@@ -1,4 +1,4 @@
-package nl.tijsbeek.wesupportgoods.javafx.events;
+package nl.tijsbeek.wesupportgoods.javafx.unspecified;
 
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationEvent;

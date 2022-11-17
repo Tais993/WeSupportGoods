@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import nl.tijsbeek.wesupportgoods.db.DbHandler;
-import nl.tijsbeek.wesupportgoods.javafx.events.StageReadyEvent;
+import nl.tijsbeek.wesupportgoods.javafx.unspecified.StageReadyEvent;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 

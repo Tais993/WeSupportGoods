@@ -48,9 +48,6 @@ public class DbHandler {
                         .withDatabase(new Database()
                                 .withName("org.jooq.meta.postgres.PostgresDatabase")
                                 .withExcludes("flyway_schema_history|_Pg.*|pg_.*|sql_.*")
-                                .withForcedTypes(
-                                        new ForcedType().withName("INSTANT").withIncludeTypes("TIMESTAMP")
-                                )
                                 .withSchemata(new SchemaMappingType().withInputSchema("public"))
                         )
 
